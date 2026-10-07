@@ -72,6 +72,18 @@ Everything is reversible: option **4** restores DNS, metrics, IPv6 and caches, a
 
 Restore without the menu: `VPN-Prioridad-TodoEnUno.bat -Restore`
 
+## Three ways to run it
+
+| Format | How | Notes |
+|---|---|---|
+| **`.bat` all-in-one** | Double-click `VPN-Prioridad-TodoEnUno.bat` | Asks for administrator rights by itself and bypasses the execution policy. The easiest option. |
+| **`.ps1` (PowerShell)** | From an administrator PowerShell: `.\VPN-Prioridad.ps1` | If PowerShell blocks it: `powershell -NoProfile -ExecutionPolicy Bypass -File .\VPN-Prioridad.ps1` (or `Unblock-File .\VPN-Prioridad.ps1` if you downloaded it). |
+| **`.exe` (compile it yourself)** | `powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\Build-Exe.ps1` | Produces `dist\VPN-Prioridad.exe`, which asks for administrator rights when opened. Uses [ps2exe](https://github.com/MScholtes/PS2EXE) (installed for your user only). |
+
+**Why there is no ready-made `.exe` in the repo:** an unsigned executable is often blocked by SmartScreen or antivirus, and for a tool that changes your network settings you should be able to read exactly what you run. Compile it from the source.
+
+`VPN-Prioridad.ps1` is the single source of truth. The `.bat` is generated from it with `tools\Build-Bat.ps1`, so edit the `.ps1` and rebuild.
+
 ## Menu
 
 | Key | What it does |
@@ -130,6 +142,18 @@ Everything is written to the `logs\` folder next to the `.bat`:
 
 The result: something that used to waste my time on every connection is now solved with one click.
 
+## Project layout
+
+```
+VPN-Prioridad.ps1               the tool (PowerShell)
+VPN-Prioridad-TodoEnUno.bat     the same tool wrapped in a double-click launcher (generated)
+tools/Build-Bat.ps1             regenerates the .bat from the .ps1
+tools/Build-Exe.ps1             compiles the .ps1 to an .exe (ps2exe)
+tools/bat-header.txt            the launcher part of the .bat (self-elevation)
+docs/img/                       screenshots
+examples/                       sample config, event log and administrator report
+```
+
 ## License
 
-Not specified yet.
+[MIT](LICENSE) © 2026 AlbertiJ. Free to use, modify and share. Provided as is, with no warranty: it changes network settings, so use it at your own risk.

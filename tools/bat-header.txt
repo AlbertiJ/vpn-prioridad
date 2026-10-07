@@ -1,0 +1,51 @@
+@echo off
+title VPN Prioridad - DNS, Ruteo y Monitoreo
+color 0B
+cd /d "%~dp0"
+
+rem ============================================================
+rem  TODO EN UNO: este .bat lleva el script de PowerShell adentro.
+rem  No necesita ningun otro archivo. Doble click y listo.
+rem  (Este .bat se genera con tools\Build-Bat.ps1 a partir de VPN-Prioridad.ps1: editar el .ps1.)
+rem    - Se auto-eleva a Administrador
+rem    - Saltea la politica de ejecucion
+rem    - Los logs quedan en la subcarpeta "logs" junto al .bat
+rem  Restablecer directo:  VPN-Prioridad-TodoEnUno.bat -Restore
+rem ============================================================
+
+set "ARG="
+if /i "%~1"=="-Restore" set "ARG=-Restore"
+
+net session >nul 2>&1
+if %errorlevel% equ 0 goto :ejecutar
+
+echo.
+echo   Pidiendo permisos de administrador...
+echo   (acepta el cartel de Windows que va a aparecer)
+echo.
+rem Por si el archivo vino marcado como "descargado de internet"
+powershell -NoProfile -Command "Unblock-File -LiteralPath '%~f0' -ErrorAction SilentlyContinue"
+rem Se eleva a traves de cmd.exe (mas compatible que elevar el .bat directo)
+powershell -NoProfile -Command "try { Start-Process -FilePath 'cmd.exe' -ArgumentList '/c %~s0 %ARG%' -Verb RunAs -ErrorAction Stop } catch { exit 1 }"
+if errorlevel 1 goto :fallo
+exit /b 0
+
+:fallo
+echo.
+echo   No se pudo pedir permisos de administrador.
+echo   Hacelo a mano: click derecho sobre este .bat ^> Ejecutar como administrador.
+echo.
+pause
+exit /b 1
+
+:ejecutar
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$t=[IO.File]::ReadAllText('%~f0'); $m='#'+'#PS1_INICIO#'+'#'; $i=$t.LastIndexOf($m); & ([scriptblock]::Create($t.Substring($i+$m.Length))) %ARG%"
+set "RC=%errorlevel%"
+if not "%RC%"=="0" (
+    echo.
+    echo   El script termino con codigo de error %RC%.
+    echo.
+    pause
+)
+exit /b %RC%
+##PS1_INICIO##

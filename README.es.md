@@ -70,6 +70,18 @@ Todo es reversible: la opción **4** restablece DNS, métricas, IPv6 y cachés, 
 
 Restablecer sin menú: `VPN-Prioridad-TodoEnUno.bat -Restore`
 
+## Tres formas de ejecutarlo
+
+| Formato | Cómo | Notas |
+|---|---|---|
+| **`.bat` todo en uno** | Doble clic en `VPN-Prioridad-TodoEnUno.bat` | Pide permisos de administrador solo y saltea la política de ejecución. La opción más fácil. |
+| **`.ps1` (PowerShell)** | Desde una PowerShell de administrador: `.\VPN-Prioridad.ps1` | Si PowerShell lo bloquea: `powershell -NoProfile -ExecutionPolicy Bypass -File .\VPN-Prioridad.ps1` (o `Unblock-File .\VPN-Prioridad.ps1` si lo descargaste). |
+| **`.exe` (compílalo tú)** | `powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\Build-Exe.ps1` | Genera `dist\VPN-Prioridad.exe`, que pide permisos de administrador al abrirse. Usa [ps2exe](https://github.com/MScholtes/PS2EXE) (se instala solo para tu usuario). |
+
+**Por qué no hay un `.exe` ya hecho en el repo:** un ejecutable sin firma digital suele ser bloqueado por SmartScreen o por el antivirus, y una herramienta que cambia tu configuración de red debe poder leerse completa antes de ejecutarla. Compílalo desde el código fuente.
+
+`VPN-Prioridad.ps1` es la fuente única. El `.bat` se genera a partir de él con `tools\Build-Bat.ps1`: edita el `.ps1` y vuelve a generarlo.
+
 ## Menú
 
 | Tecla | Qué hace |
@@ -128,6 +140,18 @@ Todo queda en la carpeta `logs\` junto al `.bat`:
 
 El resultado: algo que me hacía perder tiempo en cada conexión se resuelve con un clic.
 
+## Estructura del proyecto
+
+```
+VPN-Prioridad.ps1               la herramienta (PowerShell)
+VPN-Prioridad-TodoEnUno.bat     la misma herramienta con lanzador de doble clic (generado)
+tools/Build-Bat.ps1             regenera el .bat a partir del .ps1
+tools/Build-Exe.ps1             compila el .ps1 a .exe (ps2exe)
+tools/bat-header.txt            la parte lanzadora del .bat (auto-elevación)
+docs/img/                       capturas
+examples/                       ejemplos de configuración, log de eventos e informe para el administrador
+```
+
 ## Licencia
 
-Sin definir todavía.
+[MIT](LICENSE) © 2026 AlbertiJ. Libre para usar, modificar y compartir. Se entrega tal cual, sin garantía: cambia la configuración de red, así que úsala bajo tu responsabilidad.
