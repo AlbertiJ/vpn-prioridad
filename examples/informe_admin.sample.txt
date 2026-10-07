@@ -1,0 +1,53 @@
+INFORME DE CONEXION VPN
+Generado: 2026-10-07 09:40:12
+Equipo  : PC-EJEMPLO
+
+=== Sistema ===
+Microsoft Windows 11 Pro (version 10.0.22631)
+
+=== Interfaz VPN elegida ===
+OpenVPN Data Channel Offload | OpenVPN Data Channel Offload | estado: Up
+
+=== Ruta por defecto (menor metrica efectiva gana) ===
+
+ifIndex Interfaz                     NextHop      RouteMetric InterfaceMetric Efectiva
+------- --------                     -------      ----------- --------------- --------
+     14 OpenVPN Data Channel Offload 203.0.113.1            0               1        1
+      6 Ethernet                     198.51.100.1           0              70       70
+
+=== DNS por interfaz ===
+
+InterfaceAlias               AddressFamily ServerAddresses
+--------------               ------------- ---------------
+Ethernet                              IPv4 {198.51.100.1}
+OpenVPN Data Channel Offload          IPv4 {192.0.2.10, 192.0.2.11}
+
+=== OpenVPN ===
+Servicio: OpenVPNService -> Running
+Proceso : corriendo
+Log     : C:\Program Files\OpenVPN\log\corp.log
+
+=== Resumen de eventos del monitor ===
+Eventos registrados: 10
+Caidas registradas : 2
+
+Tipo         Cantidad
+----         --------
+MONITOR             3
+RUTEO               3
+DNS                 2
+MODO-FORZADO        1
+VERIFICAR           1
+
+=== Ultimas 30 caidas ===
+
+Fecha               Tipo  Detalle
+-----               ----  -------
+2026-10-07 09:14:02 RUTEO El trafico se fue por Ethernet (proveedor de internet)
+2026-10-07 09:14:40 DNS   El DNS interno 192.0.2.10 dejo de responder
+
+=== Ultimos eventos de conexion en el log de OpenVPN ===
+2026-10-07 09:01:58 Initialization Sequence Completed
+2026-10-07 09:14:01 [server] Inactivity timeout (--ping-restart), restarting
+2026-10-07 09:14:02 SIGUSR1[soft,ping-restart] received, process restarting
+2026-10-07 09:14:09 Initialization Sequence Completed

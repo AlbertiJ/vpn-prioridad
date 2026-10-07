@@ -1,0 +1,3 @@
+# Los .bat de Windows deben conservar CRLF
+*.bat text eol=crlf
+*.png binary
