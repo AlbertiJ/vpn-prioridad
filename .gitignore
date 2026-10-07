@@ -1,2 +1,10 @@
 logs/
 dist/
+
+# Secretos y datos locales (no subir nunca)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.session
